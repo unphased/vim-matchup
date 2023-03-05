@@ -32,12 +32,17 @@ function M.is_hl_enabled(bufnr)
 end
 
 function M.get_matches(bufnr)
+  print("getting matches from bufnr:", bufnr)
   local parser = parsers.get_parser(bufnr)
   local matches = {}
 
+  local i = 0
   if parser then
     parser:for_each_tree(function(tree, lang_tree)
       local lang = lang_tree:lang()
+      print('lang detected!', lang)
+      i = i + 1
+      -- print('lang tree dump', i, vim.inspect(tree))
 
       local group_results = queries.collect_group_results(
         bufnr, 'matchup', tree:root(), lang) or {}
@@ -45,6 +50,7 @@ function M.get_matches(bufnr)
     end)
   end
 
+  print(vim.inspect(matches))
   return matches
 end
 

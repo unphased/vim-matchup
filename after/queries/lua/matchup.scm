@@ -27,3 +27,16 @@
 (do_statement
   "do" @open.block
   "end" @close.block) @scope.block
+
+(dot_index_expression
+  table: (function_call
+    name: (
+      (identifier) @id
+      (#match? @id "require")
+    ) @open.req
+  )
+  field: (
+    (identifier) @id2
+    (#match? @id2 "setup")
+  ) @close.req
+) @scope.req
